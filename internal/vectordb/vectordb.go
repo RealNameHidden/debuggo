@@ -18,7 +18,7 @@ type QdrantClient struct {
 }
 
 type QdrantPoint struct {
-	ID      string                 `json:"id"`
+	ID      int64                  `json:"id"`
 	Vector  []float32              `json:"vector"`
 	Payload map[string]interface{} `json:"payload"`
 }
@@ -38,7 +38,7 @@ type QdrantSearchResponse struct {
 }
 
 type QdrantSearchResult struct {
-	ID      string                 `json:"id"`
+	ID      int64                  `json:"id"`
 	Score   float32                `json:"score"`
 	Payload map[string]interface{} `json:"payload"`
 }
@@ -124,7 +124,7 @@ func (c *QdrantClient) StoreEmbedding(ctx context.Context, embedder embed.Embedd
 		return fmt.Errorf("failed to ensure collection: %w", err)
 	}
 
-	pointID := fmt.Sprintf("emb_%d", time.Now().UnixNano())
+	pointID := time.Now().UnixNano()
 	payload := map[string]interface{}{
 		"text":      text,
 		"timestamp": time.Now().Format(time.RFC3339),
@@ -139,7 +139,10 @@ func (c *QdrantClient) StoreEmbedding(ctx context.Context, embedder embed.Embedd
 	if err != nil {
 		return err
 	}
+	// upsertURL := fmt.Sprintf("%s/collections/%s/points", c.baseURL, coll)
 	upsertURL := fmt.Sprintf("%s/collections/%s/points", c.baseURL, coll)
+	fmt.Println(string(jsonData))
+	fmt.Println(upsertURL)
 	req, err := http.NewRequestWithContext(ctx, "PUT", upsertURL, bytes.NewBuffer(jsonData))
 	if err != nil {
 		return err

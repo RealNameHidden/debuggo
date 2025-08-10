@@ -107,10 +107,6 @@ func logNewError(reader *bufio.Reader, openaiKey string, vdb *vectordb.QdrantCli
 }
 
 func askForSolution(reader *bufio.Reader, openaiKey string, vdb *vectordb.QdrantClient) {
-	if openaiKey == "" {
-		fmt.Println("❌ OPENAI_API_KEY required for AI solutions")
-		return
-	}
 
 	fmt.Print("\nDescribe the error you need help with: ")
 	queryText, _ := reader.ReadString('\n')
@@ -148,6 +144,12 @@ func askForSolution(reader *bufio.Reader, openaiKey string, vdb *vectordb.Qdrant
 	fmt.Printf("\n📋 Found %d similar error(s):\n", len(similarDocs))
 	for i, doc := range similarDocs {
 		fmt.Printf("\n--- Similar Error %d ---\n%s", i+1, doc)
+	}
+
+	if openaiKey == "" {
+		fmt.Println("❌ OPENAI_API_KEY not found for generating AI solutions")
+		fmt.Println("Refer similar docs above!")
+		return
 	}
 
 	fmt.Println("\n🤖 Generating AI solution (costs money)...")
