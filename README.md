@@ -23,6 +23,10 @@ go run .
 1. **Log new error** – Record an error and how you fixed it.
 2. **Ask for solution** – Search similar errors and get an AI-generated fix.
 
+**Example**
+<img width="1554" height="656" alt="image" src="https://github.com/user-attachments/assets/eeb09fca-39b4-4d80-b14b-b87d9979dfa8" />
+<img width="1554" height="838" alt="image" src="https://github.com/user-attachments/assets/39f3ba69-b249-4ea6-bdbb-38efcf64bbd2" />
+
 ## License
 
 MIT
